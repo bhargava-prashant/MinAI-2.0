@@ -11,8 +11,8 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
 
-# Set the page title here
-st.set_page_config(page_title="MinAI")  # Set the title of the browser tab
+ 
+st.set_page_config(page_title="MinAI", page_icon="Untitled design (4).png")
 
 load_dotenv()
 
