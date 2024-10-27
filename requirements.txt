@@ -8,7 +8,7 @@ PyPDF3
 faiss-cpu
 langchain_google_genai
 pymongo
-gridfs
+bcrypt
 
 
 
