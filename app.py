@@ -9,6 +9,7 @@ import google.generativeai as genai
 from langchain_community.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
+
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
@@ -186,9 +187,82 @@ def user_input():
 
 # Main function to run the Streamlit app
 def main():
-    st.header("Chat with Multiple PDFs using MinAI 2.0")
+    # Custom CSS for Tailwind-like Styling
+    st.markdown(
+        """
+        <style>
+            /* Background gradient */
+            body {
+                background: linear-gradient(135deg, #1f1c2c, #928DAB);
+                color: white;
+            }
 
-    # Authentication required before accessing the app
+            /* Custom header */
+            .st-emotion-cache-10trblm {
+                color: #F7B801 !important;
+                font-size: 32px !important;
+                font-weight: bold !important;
+                text-align: center;
+            }
+
+            /* Sidebar customization */
+            .stSidebar {
+                background: #2b2b2b !important;
+                color: white !important;
+            }
+
+            /* Chat history design */
+            .chat-bubble {
+                background: #1b2631 ;
+                color: white;
+                padding: 12px;
+                border-radius: 12px;
+                margin: 8px 0;
+                font-size: 16px;
+            }
+
+            /* User question box */
+            .user-question {
+                background: #1b2631 ;
+                color: white;
+                padding: 12px;
+                border-radius: 12px;
+                margin: 8px 0;
+                font-size: 16px;
+            }
+
+            /* Input field */
+            .stTextInput>div>div>input {
+                background-color: #333 !important;
+                color: white !important;
+                border-radius: 8px;
+                padding: 10px;
+                border: none;
+                font-size: 16px;
+            }
+
+            /* Buttons */
+            .stButton>button {
+                background: #F7B801 !important;
+                color: black !important;
+                border-radius: 8px;
+                padding: 10px 20px;
+                font-size: 16px;
+                font-weight: bold;
+                transition: 0.3s;
+            }
+            .stButton>button:hover {
+                background: #FF8C00 !important;
+                color: white !important;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.header("✨ Chat with Multiple PDFs using MinAI 2.0")
+
+    # Authentication Check
     if not st.session_state['user']:
         auth_interface()
     else:
@@ -196,39 +270,39 @@ def main():
             st.title("Menu:")
             if st.button("Logout"):
                 logout()
-            
+
             if st.button("New Chat"):
                 st.session_state['chat_history'] = []
                 st.session_state['vector_store'] = None
-                st.success("New chat started! Chat history has been reset.")
-            
-            # Load user PDFs only if vector store is not already loaded
-            if not st.session_state['vector_store']:
-                with st.spinner("Processing PDFs from user database..."):
-                    process_user_pdfs()
-                    st.success("Your PDFs have been processed!")
+                st.success("New chat started!")
 
-            pdf_docs = st.file_uploader("Upload your PDF files", accept_multiple_files=True, type="pdf")
+            if not st.session_state['vector_store']:
+                with st.spinner("⏳ Processing PDFs..."):
+                    process_user_pdfs()
+                    st.success("📂 PDFs processed successfully!")
+
+            pdf_docs = st.file_uploader("📤 Upload PDFs", accept_multiple_files=True, type="pdf")
             if st.button("Submit & Process"):
                 if pdf_docs:
                     with st.spinner("Processing..."):
                         for pdf in pdf_docs:
                             upload_pdf_to_user_db(pdf)
                         process_user_pdfs()
-                        st.success("All PDFs processed and stored!")
+                        st.success("✅ All PDFs processed and stored!")
                 else:
-                    st.error("Please upload at least one PDF file.")
-        
+                    st.error("⚠️ Please upload at least one PDF.")
+
         # Display chat history
-        st.subheader("Conversation")
+        st.subheader("💬 Conversation")
         if st.session_state['chat_history']:
             for chat in st.session_state['chat_history']:
-                st.markdown(f"**You:** {chat['question']}")
-                st.markdown(f"**MinAI 2.0:** {chat['response']}")
+                st.markdown(f"<div class='user-question'>You: {chat['question']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='chat-bubble'>MinAI 2.0: {chat['response']}</div>", unsafe_allow_html=True)
                 st.markdown("---")
 
         # Input field for user question
-        st.text_input("Ask a Question", key="user_question_input", on_change=user_input)
+        st.text_input("💡 Ask a Question", key="user_question_input", on_change=user_input)
+
 
 if __name__ == "__main__":
     main()
