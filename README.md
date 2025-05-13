@@ -1,4 +1,4 @@
-# 🤖 MinAI-2.O - Chat with Multiple PDFs using AI
+#  MinAI-2.O - Chat with Multiple PDFs using AI
 
 Welcome to MinAI, a web-based AI application that lets you chat with your PDFs. Fetch data from multiple PDFs and get answers to your questions with ease! 🎉
 
