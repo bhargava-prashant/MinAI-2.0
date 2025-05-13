@@ -65,8 +65,7 @@ https://user-images.githubusercontent.com/sample-video.mp4
 Follow the steps below to get MinAI up and running locally:
 
 # Clone the repository
-git clone https://github.com/bhargava-prashant/MinAI.git
-
+git clone https://github.com/bhargava-prashant/MinAI-2.0
 # Navigate to the directory
 cd MinAI
 
